@@ -16,7 +16,7 @@
         tools:text="ELDAR"
         android:textColor="#E6E3DB"
         android:layout_marginTop="40sp"
-        android:textSize="40sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
