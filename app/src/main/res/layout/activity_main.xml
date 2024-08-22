@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="ELDAR"
-        android:textColor="@color/white"
+        android:textColor="#E6E3DB"
         android:layout_marginTop="40sp"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
