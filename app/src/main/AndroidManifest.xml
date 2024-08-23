@@ -13,6 +13,10 @@
         android:theme="@style/Theme.Eldar_proyect"
         tools:targetApi="31">
         <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Eldar_proyect" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

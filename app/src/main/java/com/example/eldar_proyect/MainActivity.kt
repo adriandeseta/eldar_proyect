@@ -1,5 +1,6 @@
 package com.example.eldar_proyect
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
                 // Verificamos si las credenciales son correctas
                 if (checkUserCredentials(user, password)) {
                     Toast.makeText(this, "EL USUARIO Y CONTRASEÑA SON CORRECTOS", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
                 } else {
                     // Si no coinciden, registramos el nuevo usuario y contraseña
                     val userData = UserData(this)
