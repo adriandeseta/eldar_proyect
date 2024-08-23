@@ -21,25 +21,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/user"
-        android:hint="Usuario"
-        android:maxLines="1"
-        android:layout_marginTop="20sp"
+    <LinearLayout
+        android:id="@+id/log_in_input_container"
+        android:layout_marginTop="40sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/main_title"/>
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_title">
 
-    <EditText
-        android:id="@+id/password"
-        android:hint="Contraseña"
-        android:maxLines="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        android:inputType="textWebPassword"
-        app:layout_constraintTop_toBottomOf="@+id/user"
-        tools:layout_editor_absoluteX="20dp" />
+        <TextView
+            android:id="@+id/add_card_user_name_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuario" />
+
+        <EditText
+            android:id="@+id/user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:hint="Usuario"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/add_card_user_surname_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:text="Contraseña" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16sp"
+            android:hint="Usuario"
+            android:inputType="text"
+            android:maxLines="1" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_submit"
@@ -50,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/log_in_input_container"
         tools:text="Submit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
