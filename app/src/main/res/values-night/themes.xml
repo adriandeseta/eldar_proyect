@@ -1,7 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Eldar_proyect" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:colorBackground">#000000</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorSecondary">#AAAAAA</item>
+        <item name="colorAccent">#FFFFFF</item>
+        <item name="android:colorBackgroundFloating">#424242</item>
+    </style>
+    <style name="AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <!-- Fondo del botón -->
+        <item name="android:backgroundTint">#FFFFFF</item>
+        <!-- Texto del botón -->
+        <item name="android:textColor">#000000</item>
+        <!-- Borde del botón -->
+        <item name="android:strokeColor">#FFFFFF</item>
+        <!-- Grosor del borde -->
+        <item name="android:strokeWidth">2</item>
+        <!-- Relleno interno del botón -->
+        <item name="android:padding">12dp</item>
+        <!-- Elevación del botón (sombras) -->
+        <item name="android:elevation">4dp</item>
+        <!-- Texto en mayúsculas -->
+        <item name="android:textAllCaps">false</item>
     </style>
 </resources>
+
+

@@ -4,23 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.eldar_proyect.data.UserData
 import com.example.eldar_proyect.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var arrayListUsers = ArrayList<HashMap<String, String>>()
-    private var dataLoaded = false  // Bandera para saber si ya se han cargado los datos
+    private var dataLoaded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         binding.mainTitle.text = "ELDAR"
         binding.user.hint = "Ingrese usuario"
         binding.password.hint = "Ingrese Contraseña"
-        binding.btnSubmit.text = "Log in"
+        binding.btnSubmit.text = "Sing up"
 
         binding.btnSubmit.setOnClickListener {
             if (binding.user.text.isEmpty() || binding.password.text.isEmpty()) {
@@ -29,28 +31,24 @@ class MainActivity : AppCompatActivity() {
                 val user = binding.user.text.toString()
                 val password = binding.password.text.toString()
 
-                // Cargamos los datos desde la base de datos si aún no lo hemos hecho
                 if (!dataLoaded) {
                     getUserData()
                     dataLoaded = true
+                    binding.btnSubmit.text = "Log in"
                 }
 
-                // Verificamos si las credenciales son correctas
                 if (checkUserCredentials(user, password)) {
                     Toast.makeText(this, "EL USUARIO Y CONTRASEÑA SON CORRECTOS", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                 } else {
-                    // Si no coinciden, registramos el nuevo usuario y contraseña
                     val userData = UserData(this)
                     userData.userRegister(userData, user, password)
-                    // Después de registrar, actualizamos la lista de usuarios
-                    arrayListUsers.clear()  // Limpiamos la lista actual para evitar duplicados
+                    arrayListUsers.clear()
                     getUserData()
                     Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
                 }
 
-                // Limpiamos los campos
                 binding.user.setText("")
                 binding.password.setText("")
             }
@@ -78,11 +76,10 @@ class MainActivity : AppCompatActivity() {
             val storedUser = map["user"]
             val storedPassword = map["password"]
 
-            // Verificamos si tanto el usuario como la contraseña coinciden
             if (storedUser == user && storedPassword == password) {
-                return true // Credenciales correctas
+                return true
             }
         }
-        return false // No se encontró una coincidencia
+        return false
     }
 }
