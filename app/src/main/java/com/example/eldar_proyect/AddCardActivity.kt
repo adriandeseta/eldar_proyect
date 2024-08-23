@@ -1,6 +1,7 @@
 package com.example.eldar_proyect
 
 import UserInfo
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -21,6 +22,7 @@ class AddCardActivity : AppCompatActivity() {
         binding = ActivityAddCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Configuración del TextWatcher para formatear el número de tarjeta
         binding.addCardUserNumber.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // Evitar bucles infinitos
@@ -47,26 +49,37 @@ class AddCardActivity : AppCompatActivity() {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
+        // Configuración del botón para agregar una nueva tarjeta
         binding.btnAddNewCard.setOnClickListener {
-            if (binding.addCardUserName.text.isEmpty() || binding.addCardUserSurname.text.isEmpty() || binding.addCardUserNumber.text.isEmpty()) {
+            // Verificar que todos los campos estén completos
+            if (binding.addCardUserName.text.isNullOrEmpty() ||
+                binding.addCardUserSurname.text.isNullOrEmpty() ||
+                binding.addCardUserNumber.text.isNullOrEmpty()) {
+
                 Toast.makeText(this, "Debe completar todos los campos", Toast.LENGTH_SHORT).show()
             } else {
+                // Obtener los datos ingresados por el usuario
                 val userName = binding.addCardUserName.text.toString()
                 val userSurname = binding.addCardUserSurname.text.toString()
                 val userCardNumber = binding.addCardUserNumber.text.toString().replace(" ", "")
+
+                // Crear un objeto UserInfo
                 val userInfo = UserInfo(userName, userSurname, userCardNumber)
 
-                // Pasar el objeto UserInfo a HomeActivity
-                val intent = Intent(this, HomeActivity::class.java).apply {
+                // Configurar el Intent para devolver el resultado
+                val resultIntent = Intent().apply {
                     putExtra("userInfo", userInfo)
                 }
-                startActivity(intent)
+
+                // Establecer el resultado de la actividad
+                setResult(Activity.RESULT_OK, resultIntent)
+
+                // Finalizar la actividad y devolver el resultado a com.example.eldar_proyect.HomeActivity
+                finish()
             }
         }
-
     }
 }

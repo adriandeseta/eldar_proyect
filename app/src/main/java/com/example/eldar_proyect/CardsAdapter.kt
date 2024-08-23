@@ -1,13 +1,11 @@
-package com.example.eldar_proyect
-
-import UserInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.eldar_proyect.R
 
-class CardsAdapter(private val cardList: List<UserInfo>) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
+class CardsAdapter(private val cardList: MutableList<UserInfo>) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val userCardNumber: TextView = itemView.findViewById(R.id.card_number)
