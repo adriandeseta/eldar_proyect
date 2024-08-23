@@ -1,10 +1,9 @@
-package com.example.eldar_proyect.dto
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class UserInfo(
-
-    val userName: String?,
-
-    val userSurname: String?,
-
-    val userCardNumber: String?,
-)
+    val name: String,
+    val surname: String,
+    val cardNumber: String
+) : Parcelable
