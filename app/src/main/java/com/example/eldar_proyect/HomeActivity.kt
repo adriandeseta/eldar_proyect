@@ -1,6 +1,8 @@
 package com.example.eldar_proyect
 
+import CardsAdapter
 import UserInfo
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var cardsAdapter: CardsAdapter
     private val cardList = mutableListOf<UserInfo>() // Lista mutable para las tarjetas
+    private val ADD_CARD_REQUEST_CODE = 1 // Código de solicitud para identificar la actividad
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,20 +34,26 @@ class HomeActivity : AppCompatActivity() {
         // Botón para agregar una nueva tarjeta
         binding.btnAddCard.setOnClickListener {
             val intent = Intent(this, AddCardActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, ADD_CARD_REQUEST_CODE) // Lanza AddCardActivity y espera un resultado
         }
+    }
 
-        // Verificar si el Intent contiene los datos del UserInfo
-        val userInfo = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("userInfo", UserInfo::class.java)
-        } else {
-            intent.getParcelableExtra<UserInfo>("userInfo")
-        }
+    // Método para manejar el resultado de AddCardActivity
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        // Si los datos están presentes, actualiza la lista del RecyclerView
-        userInfo?.let {
-            cardList.add(it) // Añadir el nuevo objeto a la lista
-            cardsAdapter.notifyDataSetChanged() // Notificar al Adapter que los datos han cambiado
+        if (requestCode == ADD_CARD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val userInfo = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                data?.getParcelableExtra("userInfo", UserInfo::class.java)
+            } else {
+                data?.getParcelableExtra<UserInfo>("userInfo")
+            }
+
+            // Si se recibió un UserInfo, añadirlo a la lista y actualizar el RecyclerView
+            userInfo?.let {
+                cardList.add(it) // Añadir el nuevo objeto a la lista
+                cardsAdapter.notifyItemInserted(cardList.size - 1) // Notificar al Adapter que se ha insertado un nuevo ítem
+            }
         }
     }
 }
