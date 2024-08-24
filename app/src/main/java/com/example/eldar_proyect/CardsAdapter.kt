@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eldar_proyect.R
+import com.example.eldar_proyect.dto.UserInfo
 
 class CardsAdapter(private val cardList: MutableList<UserInfo>) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
 

@@ -1,7 +1,6 @@
 package com.example.eldar_proyect
 
 import CardsAdapter
-import UserInfo
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eldar_proyect.databinding.ActivityHomeBinding
+import com.example.eldar_proyect.dto.UserInfo
 
 class HomeActivity : AppCompatActivity() {
 
