@@ -1,6 +1,5 @@
 package com.example.eldar_proyect
 
-import UserInfo
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +8,14 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.eldar_proyect.data.UserData
 import com.example.eldar_proyect.databinding.ActivityAddCardBinding
+import com.example.eldar_proyect.dto.UserInfo
 
 class AddCardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddCardBinding
+    private lateinit var userData: UserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +24,11 @@ class AddCardActivity : AppCompatActivity() {
         binding = ActivityAddCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configuración del TextWatcher para formatear el número de tarjeta
+        userData = UserData(this)
+
+        // Obtener el ID del usuario desde el Intent
+        val userId = intent.getIntExtra("userId", -1)
+
         binding.addCardUserNumber.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // Evitar bucles infinitos
@@ -52,33 +58,43 @@ class AddCardActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // Configuración del botón para agregar una nueva tarjeta
         binding.btnAddNewCard.setOnClickListener {
-            // Verificar que todos los campos estén completos
-            if (binding.addCardUserName.text.isNullOrEmpty() ||
-                binding.addCardUserSurname.text.isNullOrEmpty() ||
-                binding.addCardUserNumber.text.isNullOrEmpty()) {
+            val userName = binding.addCardUserName.text.toString()
+            val userSurname = binding.addCardUserSurname.text.toString()
+            val userCardNumber = binding.addCardUserNumber.text.toString().replace(" ", "")
+            // Determinar el tipo de tarjeta
+            val cardType = when {
+                userCardNumber.startsWith("3") -> "AMEX"
+                userCardNumber.startsWith("4") -> "VISA"
+                userCardNumber.startsWith("5") -> "MASTERCARD"
+                else -> "Unknown"
+            }
 
-                Toast.makeText(this, "Debe completar todos los campos", Toast.LENGTH_SHORT).show()
-            } else {
-                // Obtener los datos ingresados por el usuario
-                val userName = binding.addCardUserName.text.toString()
-                val userSurname = binding.addCardUserSurname.text.toString()
-                val userCardNumber = binding.addCardUserNumber.text.toString().replace(" ", "")
+            // Verificar que todos los campos estén completos y que el ID del usuario sea válido
+            if (userName.isNotEmpty() && userSurname.isNotEmpty() && userCardNumber.isNotEmpty()) {
+                // Agregar la tarjeta a la base de datos
+                userData.addCard(userId, userName, userSurname, userCardNumber, cardType)
 
-                // Crear un objeto UserInfo
-                val userInfo = UserInfo(userName, userSurname, userCardNumber)
+                // Crear un objeto UserInfo con el ID del usuario
+                val userInfo = UserInfo(
+                    id = userId,
+                    user = "", // Puede estar vacío ya que estamos en AddCardActivity
+                    password = "", // También vacío
+                    name = userName,
+                    surname = userSurname,
+                    cardNumber = userCardNumber,
+                    cardType = cardType
+                )
 
-                // Configurar el Intent para devolver el resultado
+                // Crear un Intent de resultado con el objeto UserInfo
                 val resultIntent = Intent().apply {
                     putExtra("userInfo", userInfo)
                 }
-
-                // Establecer el resultado de la actividad
                 setResult(Activity.RESULT_OK, resultIntent)
-
-                // Finalizar la actividad y devolver el resultado a com.example.eldar_proyect.HomeActivity
-                finish()
+                finish() // Cerrar esta actividad y volver a HomeActivity
+            } else {
+                // Mostrar un mensaje si los campos no están completos o el ID no es válido
+                Toast.makeText(this, "Debe completar todos los campos y seleccionar un usuario válido", Toast.LENGTH_SHORT).show()
             }
         }
     }
