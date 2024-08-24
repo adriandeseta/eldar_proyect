@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class UserData(context: Context) : SQLiteOpenHelper(context, "usuarios.db", null, 2) { // Cambiar versión a 2 para manejar la actualización
+class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, "usuarios.db", null, 2) { // Cambiar versión a 2 para manejar la actualización
 
     override fun onCreate(db: SQLiteDatabase) {
         // Crear tabla de usuarios

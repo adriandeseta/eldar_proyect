@@ -8,14 +8,14 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.eldar_proyect.data.UserData
+import com.example.eldar_proyect.data.DataBaseHelper
 import com.example.eldar_proyect.databinding.ActivityAddCardBinding
 import com.example.eldar_proyect.dto.UserInfo
 
 class AddCardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddCardBinding
-    private lateinit var userData: UserData
+    private lateinit var dataBaseHelper: DataBaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class AddCardActivity : AppCompatActivity() {
         binding = ActivityAddCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userData = UserData(this)
+        dataBaseHelper = DataBaseHelper(this)
 
         // Obtener el ID del usuario desde el Intent
         val userId = intent.getIntExtra("userId", -1)
@@ -73,7 +73,7 @@ class AddCardActivity : AppCompatActivity() {
             // Verificar que todos los campos estén completos y que el ID del usuario sea válido
             if (userName.isNotEmpty() && userSurname.isNotEmpty() && userCardNumber.isNotEmpty()) {
                 // Agregar la tarjeta a la base de datos
-                userData.addCard(userId, userName, userSurname, userCardNumber, cardType)
+                dataBaseHelper.addCard(userId, userName, userSurname, userCardNumber, cardType)
 
                 // Crear un objeto UserInfo con el ID del usuario
                 val userInfo = UserInfo(
