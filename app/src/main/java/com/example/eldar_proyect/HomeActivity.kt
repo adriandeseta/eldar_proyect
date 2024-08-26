@@ -58,9 +58,9 @@ class HomeActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             do {
                 val cardNumber = cursor.getString(cursor.getColumnIndex("cardNumber"))
-                val name = cursor.getString(cursor.getColumnIndex("name")).toUpperCase(Locale.ROOT)
-                val surname = cursor.getString(cursor.getColumnIndex("surname")).toUpperCase(Locale.ROOT)
-                val cardType = cursor.getString(cursor.getColumnIndex("cardType")).toUpperCase(Locale.ROOT)
+                val name = cursor.getString(cursor.getColumnIndex("name")).uppercase()
+                val surname = cursor.getString(cursor.getColumnIndex("surname")).uppercase()
+                val cardType = cursor.getString(cursor.getColumnIndex("cardType")).uppercase()
                 val decryptCardNumber = encryptionHelper.decrypt(cardNumber)
 
                 cardList.add(UserInfo(userId, "", "", name, surname, decryptCardNumber, cardType))

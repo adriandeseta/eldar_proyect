@@ -21,6 +21,7 @@
 
         <TextView
             android:id="@+id/card_name"
+            android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"/>
@@ -36,6 +37,7 @@
 
         <TextView
             android:id="@+id/card_surname"
+            android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"/>
@@ -66,6 +68,7 @@
 
         <TextView
             android:id="@+id/card_type"
+            android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"/>
