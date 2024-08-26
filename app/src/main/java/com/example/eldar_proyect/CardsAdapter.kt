@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eldar_proyect.dto.UserInfo
 
-class CardsAdapter(private val cardList: MutableList<UserInfo>) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
+class CardsAdapter(private val cardList: MutableList<UserInfo>) :
+    RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val userCardNumber: TextView = itemView.findViewById(R.id.card_number)
@@ -18,7 +19,8 @@ class CardsAdapter(private val cardList: MutableList<UserInfo>) : RecyclerView.A
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
         return CardViewHolder(itemView)
     }
 
@@ -34,4 +36,13 @@ class CardsAdapter(private val cardList: MutableList<UserInfo>) : RecyclerView.A
     override fun getItemCount(): Int {
         return cardList.size
     }
+
+
+    fun updateCards(newCardList: List<UserInfo>) {
+        cardList.clear()
+        cardList.addAll(newCardList)
+        notifyDataSetChanged()
+    }
+
+
 }
