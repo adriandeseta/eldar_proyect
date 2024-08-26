@@ -1,7 +1,7 @@
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.eldar_proyect.data.DataBaseHelper
-import EncryptionHelper
+import com.example.eldar_proyect.viewModel.HomeViewModel
 
 class HomeViewModelFactory(
     private val dataBaseHelper: DataBaseHelper,

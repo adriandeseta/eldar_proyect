@@ -1,7 +1,7 @@
 package com.example.eldar_proyect
 
 import EncryptionHelper
-import HomeViewModel
+import com.example.eldar_proyect.viewModel.HomeViewModel
 import HomeViewModelFactory
 import android.app.Activity
 import android.content.Intent

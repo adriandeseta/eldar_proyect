@@ -13,7 +13,7 @@
         android:id="@+id/main_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="ELDAR"
+        tools:text="@string/login_title"
         android:textColor="@color/white"
         android:layout_marginTop="40sp"
         android:textSize="30sp"
@@ -36,14 +36,14 @@
             android:id="@+id/add_card_user_name_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Usuario" />
+            android:text="@string/login_user_title" />
 
         <EditText
             android:id="@+id/user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="Usuario"
+            android:hint="@string/login_user_hint"
             android:inputType="text"
             android:maxLines="1" />
 
@@ -52,14 +52,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16sp"
-            android:text="Contraseña" />
+            android:text="@string/login_user_password_title" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="Password"
+            android:hint="@string/login_user_password_hint"
             android:inputType="textPassword"
             android:maxLines="1" />
 
@@ -75,6 +75,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/log_in_input_container"
-        tools:text="Sing in" />
+        android:text="@string/sing_up_btn_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

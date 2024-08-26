@@ -25,10 +25,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        binding.mainTitle.text = "ELDAR"
-        binding.user.hint = "Ingrese usuario"
-        binding.password.hint = "Ingrese Contraseña"
-        binding.btnSubmit.text = "Sign up"
 
         loginViewModel.loginState.observe(this, Observer { state ->
             when (state) {
@@ -42,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
                     binding.user.setText("")
                     binding.password.setText("")
+                    binding.btnSubmit.text = getString(R.string.log_in_btn_label)
                 }
                 is LoginState.Error -> {
                     Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()

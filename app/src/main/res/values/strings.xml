@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">eldar_proyect</string>
+    <string name="login_title">ELDAR</string>
+    <string name="login_user_hint">Ingrese usuario</string>
+    <string name="login_user_password_hint">Ingrese Contraseña</string>
+    <string name="sing_up_btn_label">Sign up</string>
+    <string name="log_in_btn_label">Log in</string>
+    <string name="login_user_title">Usuario</string>
+    <string name="login_user_password_title">Contraseña</string>
+    <string name="home_balance_title">Su saldo es:</string>
+    <string name="home_balance">$</string>
+    <string name="home_add_card_btn">Agregar tarjeta</string>
+    <string name="add_card_title">Agregar tarjeta</string>
+    <string name="home_qr_btn">QR</string>
+    <string name="add_card_credit_card_name_title">Nombre que figura en la tarjeta</string>
+    <string name="add_card_credit_card_name_hint">Nombre</string>
+    <string name="add_card_credit_card_surname_title">Apellido que figura en la tarjeta</string>
+    <string name="add_card_credit_card_surname_hint">Apellido</string>
+    <string name="add_card_credit_card_number_title">Ingrese el numero de la tarjeta</string>
+    <string name="add_card_credit_card_number_hint">xxxx xxxx xxxx xxxx</string>
+    <string name="item_card_name_title">Nombre del titular</string>
+    <string name="item_card_surname_title">Apellido del titular</string>
+    <string name="item_card_number_title">Numero de Tarjeta</string>
+    <string name="item_card_title">Tarjeta</string>
 </resources>
+
