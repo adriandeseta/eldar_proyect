@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">eldar_proyect</string>
-    <string name="login_title">ELDAR</string>
+    <string name="login_title">ELDAR APP</string>
     <string name="login_user_hint">Ingrese usuario</string>
     <string name="login_user_password_hint">Ingrese Contraseña</string>
     <string name="sing_up_btn_label">Sign up</string>

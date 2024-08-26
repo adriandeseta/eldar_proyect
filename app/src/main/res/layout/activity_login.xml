@@ -13,7 +13,7 @@
         android:id="@+id/main_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/login_title"
+        android:text="@string/login_title"
         android:textColor="@color/white"
         android:layout_marginTop="40sp"
         android:textSize="30sp"
