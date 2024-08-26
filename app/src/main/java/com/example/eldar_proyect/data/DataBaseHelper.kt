@@ -6,41 +6,53 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, "usuarios.db", null, 2) { // Cambiar versión a 2 para manejar la actualización
+class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, "usuarios.db", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        // Crear tabla de usuarios
-        db.execSQL("CREATE TABLE usuarios(" +
-                "idUser INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "user TEXT," +
-                "password TEXT)")
+        db.execSQL(
+            """
+            CREATE TABLE usuarios(
+                idUser INTEGER PRIMARY KEY AUTOINCREMENT,
+                user TEXT NOT NULL,
+                password TEXT NOT NULL
+            )
+            """
+        )
 
-        // Crear tabla de tarjetas
-        db.execSQL("CREATE TABLE tarjetas(" +
-                "idCard INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "userId INTEGER," +
-                "name TEXT," +
-                "surname TEXT," +
-                "cardNumber TEXT," +
-                "cardType TEXT," +
-                "FOREIGN KEY(userId) REFERENCES usuarios(idUser))")
+        db.execSQL(
+            """
+            CREATE TABLE tarjetas(
+                idCard INTEGER PRIMARY KEY AUTOINCREMENT,
+                userId INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                surname TEXT NOT NULL,
+                cardNumber TEXT NOT NULL,
+                cardType TEXT NOT NULL,
+                FOREIGN KEY(userId) REFERENCES usuarios(idUser) ON DELETE CASCADE
+            )
+            """
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Manejar la actualización de la base de datos
         if (oldVersion < 2) {
-            // Crear tabla de tarjetas en la nueva versión
-            db.execSQL("CREATE TABLE tarjetas(" +
-                    "idCard INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "userId INTEGER," +
-                    "name TEXT," +
-                    "surname TEXT," +
-                    "cardNumber TEXT," +
-                    "cardType TEXT," +
-                    "FOREIGN KEY(userId) REFERENCES usuarios(idUser))")
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS tarjetas(
+                    idCard INTEGER PRIMARY KEY AUTOINCREMENT,
+                    userId INTEGER NOT NULL,
+                    name TEXT NOT NULL,
+                    surname TEXT NOT NULL,
+                    cardNumber TEXT NOT NULL,
+                    cardType TEXT NOT NULL,
+                    FOREIGN KEY(userId) REFERENCES usuarios(idUser) ON DELETE CASCADE
+                )
+                """
+            )
         }
     }
 
+    // Registrar nuevo usuario
     fun userRegister(user: String, password: String): Long {
         val db = writableDatabase
         val values = ContentValues().apply {
@@ -50,31 +62,29 @@ class DataBaseHelper(context: Context) : SQLiteOpenHelper(context, "usuarios.db"
         return db.insert("usuarios", null, values)
     }
 
+    // Método para agregar una tarjeta
     fun addCard(userId: Int, name: String, surname: String, cardNumber: String, cardType: String) {
         val db = writableDatabase
         val values = ContentValues().apply {
             put("userId", userId)
             put("name", name)
             put("surname", surname)
-            put("cardNumber", cardNumber)
+            put("cardNumber", cardNumber) // Guardar número de tarjeta (mejor si lo encriptas)
             put("cardType", cardType)
         }
         db.insert("tarjetas", null, values)
     }
 
-    fun getAllUsers(): Cursor {
-        val db = readableDatabase
-        return db.rawQuery("SELECT * FROM usuarios", null)
-    }
-
+    // Obtener las tarjetas de un usuario
     fun getCardsByUser(userId: Int): Cursor {
         val db = readableDatabase
         val query = "SELECT * FROM tarjetas WHERE userId = ?"
         return db.rawQuery(query, arrayOf(userId.toString()))
     }
 
-    fun getAllCards(): Cursor {
+    // Obtener todos los usuarios
+    fun getAllUsers(): Cursor {
         val db = readableDatabase
-        return db.rawQuery("SELECT * FROM tarjetas", null)
+        return db.rawQuery("SELECT * FROM usuarios", null)
     }
 }

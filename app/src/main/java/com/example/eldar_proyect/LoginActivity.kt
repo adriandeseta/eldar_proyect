@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         binding.password.hint = "Ingrese Contraseña"
         binding.btnSubmit.text = "Sign up"
 
+        // Inicializar el helper de la base de datos
         dataBaseHelper = DataBaseHelper(this)
 
         binding.btnSubmit.setOnClickListener {

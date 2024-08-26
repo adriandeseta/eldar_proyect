@@ -1,12 +1,15 @@
 package com.example.eldar_proyect
 
 import CardsAdapter
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.eldar_proyect.data.DataBaseHelper
 import com.example.eldar_proyect.databinding.ActivityHomeBinding
 import com.example.eldar_proyect.dto.UserInfo
 
@@ -14,8 +17,9 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var cardsAdapter: CardsAdapter
-    private val cardList = mutableListOf<UserInfo>() // Lista mutable para las tarjetas
-    private val ADD_CARD_REQUEST_CODE = 1 // Código de solicitud para identificar la actividad
+    private lateinit var dataBaseHelper: DataBaseHelper
+    private val cardList = mutableListOf<UserInfo>()
+    private val ADD_CARD_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,21 +28,42 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializar el RecyclerView y el Adapter
+        dataBaseHelper = DataBaseHelper(this)
+
+        val userId = intent.getIntExtra("userId", -1)
+
+        loadUserCards(userId)
+
         cardsAdapter = CardsAdapter(cardList)
         binding.cardsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@HomeActivity)
             adapter = cardsAdapter
         }
 
-        // Botón para agregar una nueva tarjeta
         binding.btnAddCard.setOnClickListener {
             val intent = Intent(this, AddCardActivity::class.java)
-            startActivityForResult(intent, ADD_CARD_REQUEST_CODE) // Lanza AddCardActivity y espera un resultado
+            intent.putExtra("userId", userId) // Pasar el userId al AddCardActivity
+            startActivityForResult(intent, ADD_CARD_REQUEST_CODE)
         }
     }
 
-    // Método para manejar el resultado de AddCardActivity
+    @SuppressLint("Range")
+    private fun loadUserCards(userId: Int) {
+        val cursor: Cursor = dataBaseHelper.getCardsByUser(userId)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val cardNumber = cursor.getString(cursor.getColumnIndex("cardNumber"))
+                val name = cursor.getString(cursor.getColumnIndex("name"))
+                val surname = cursor.getString(cursor.getColumnIndex("surname"))
+                val cardType = cursor.getString(cursor.getColumnIndex("cardType"))
+
+                cardList.add(UserInfo(userId, "", "", name, surname, cardNumber, cardType))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -49,10 +74,9 @@ class HomeActivity : AppCompatActivity() {
                 data?.getParcelableExtra<UserInfo>("userInfo")
             }
 
-            // Si se recibió un UserInfo, añadirlo a la lista y actualizar el RecyclerView
             userInfo?.let {
-                cardList.add(it) // Añadir el nuevo objeto a la lista
-                cardsAdapter.notifyItemInserted(cardList.size - 1) // Notificar al Adapter que se ha insertado un nuevo ítem
+                cardList.add(it)
+                cardsAdapter.notifyItemInserted(cardList.size - 1)
             }
         }
     }
