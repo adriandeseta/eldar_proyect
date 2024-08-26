@@ -7,18 +7,21 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Observer
 import com.example.eldar_proyect.data.DataBaseHelper
 import com.example.eldar_proyect.databinding.ActivityAddCardBinding
-import com.example.eldar_proyect.dto.UserInfo
+import com.example.eldar_proyect.factory.AddCardViewModelFactory
+import com.example.eldar_proyect.viewModel.AddCardViewModel
 
 class AddCardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddCardBinding
-    private lateinit var dataBaseHelper: DataBaseHelper
-    private lateinit var encryptionHelper: EncryptionHelper
-
+    private val addCardViewModel: AddCardViewModel by viewModels {
+        AddCardViewModelFactory(DataBaseHelper(this), EncryptionHelper())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +30,6 @@ class AddCardActivity : AppCompatActivity() {
         binding = ActivityAddCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataBaseHelper = DataBaseHelper(this)
-        encryptionHelper = EncryptionHelper()
-
-
         // Obtener el ID del usuario desde el Intent
         val userId = intent.getIntExtra("userId", -1)
 
@@ -38,17 +37,8 @@ class AddCardActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 binding.addCardUserNumber.removeTextChangedListener(this)
 
-                val originalText = s.toString().replace(" ", "")
-                val formattedText = StringBuilder()
-
-                for (i in originalText.indices) {
-                    if (i > 0 && i % 4 == 0) {
-                        formattedText.append(" ")
-                    }
-                    formattedText.append(originalText[i])
-                }
-
-                binding.addCardUserNumber.setText(formattedText.toString())
+                val formattedText = addCardViewModel.formatCardNumber(s.toString())
+                binding.addCardUserNumber.setText(formattedText)
                 binding.addCardUserNumber.setSelection(formattedText.length)
 
                 binding.addCardUserNumber.addTextChangedListener(this)
@@ -62,36 +52,26 @@ class AddCardActivity : AppCompatActivity() {
             val userName = binding.addCardUserName.text.toString()
             val userSurname = binding.addCardUserSurname.text.toString()
             val userCardNumber = binding.addCardUserNumber.text.toString().replace(" ", "")
-            val cardType = when {
-                userCardNumber.startsWith("3") -> "AMEX"
-                userCardNumber.startsWith("4") -> "VISA"
-                userCardNumber.startsWith("5") -> "MASTERCARD"
-                else -> "Unknown"
-            }
 
-            if (userName.isNotEmpty() && userSurname.isNotEmpty() && userCardNumber.isNotEmpty() && userId != -1) {
-                val encryptedCardNumber = encryptionHelper.encrypt(userCardNumber)
+            addCardViewModel.addNewCard(userId, userName, userSurname, userCardNumber)
+        }
 
-                dataBaseHelper.addCard(userId, userName, userSurname, encryptedCardNumber, cardType)
-
-                val userInfo = UserInfo(
-                    id = userId,
-                    user = "",
-                    password = "",
-                    name = userName,
-                    surname = userSurname,
-                    cardNumber = userCardNumber,
-                    cardType = cardType
-                )
-
+        // Observar cambios en userInfo y errorMessage
+        addCardViewModel.userInfo.observe(this, Observer { userInfo ->
+            userInfo?.let {
                 val resultIntent = Intent().apply {
-                    putExtra("userInfo", userInfo)
+                    putExtra("userInfo", it)
                 }
                 setResult(Activity.RESULT_OK, resultIntent)
                 finish()
-            } else {
-                Toast.makeText(this, "Debe completar todos los campos y seleccionar un usuario válido", Toast.LENGTH_SHORT).show()
             }
-        }
+        })
+
+        addCardViewModel.errorMessage.observe(this, Observer { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                addCardViewModel.clearErrorMessage()
+            }
+        })
     }
 }

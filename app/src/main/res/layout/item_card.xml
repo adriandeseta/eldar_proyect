@@ -15,7 +15,7 @@
             android:id="@+id/card_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre del titular"
+            android:text="@string/item_card_name_title"
             android:textStyle="bold"
             android:textSize="16sp"/>
 
@@ -31,7 +31,7 @@
             android:layout_marginTop="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Apellido del titular"
+            android:text="@string/item_card_surname_title"
             android:textStyle="bold"
             android:textSize="16sp"/>
 
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="16sp"
             android:layout_height="wrap_content"
-            android:text="Numero de Tarjeta"
+            android:text="@string/item_card_number_title"
             android:textStyle="bold"
             android:textSize="16sp"/>
 
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="16sp"
             android:layout_height="wrap_content"
-            android:text="Tarjeta"
+            android:text="@string/item_card_title"
             android:textStyle="bold"
             android:textSize="16sp"/>
 

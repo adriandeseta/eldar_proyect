@@ -28,7 +28,7 @@
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Agregar tarjeta"
+                android:text="@string/add_card_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,40 +56,40 @@
                 android:id="@+id/add_card_user_name_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre que figura en la tarjeta"/>
+                android:text="@string/add_card_credit_card_name_title"/>
             <EditText
                 android:id="@+id/add_card_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Nombre"
+                android:hint="@string/add_card_credit_card_name_hint"
                 android:layout_marginTop="16sp"/>
             <TextView
                 android:id="@+id/add_card_user_surname_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16sp"
-                android:text="Apellido que figura en la tarjeta"/>
+                android:text="@string/add_card_credit_card_surname_title"/>
             <EditText
                 android:id="@+id/add_card_user_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:hint="Apellido"
+                android:hint="@string/add_card_credit_card_surname_hint"
                 android:layout_marginTop="16sp"/>
             <TextView
                 android:id="@+id/add_card_user_card_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16sp"
-                android:text="Ingrese el numero de la tarjeta"/>
+                android:text="@string/add_card_credit_card_number_title"/>
             <EditText
                 android:id="@+id/add_card_user_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:maxLength="19"
-                android:hint="xxxx xxxx xxxx xxxx"
+                android:hint="@string/add_card_credit_card_number_hint"
                 android:layout_marginTop="16sp"/>
 
         </LinearLayout>
@@ -110,7 +110,7 @@
             style="@style/AppTheme.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Agregar tarjeta"
+            android:text="@string/add_card_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
