@@ -31,14 +31,11 @@ class AddCardActivity : AppCompatActivity() {
 
         binding.addCardUserNumber.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                // Evitar bucles infinitos
                 binding.addCardUserNumber.removeTextChangedListener(this)
 
-                // Obtener el texto actual sin espacios
                 val originalText = s.toString().replace(" ", "")
                 val formattedText = StringBuilder()
 
-                // Insertar espacios cada cuatro dígitos
                 for (i in originalText.indices) {
                     if (i > 0 && i % 4 == 0) {
                         formattedText.append(" ")
@@ -46,11 +43,9 @@ class AddCardActivity : AppCompatActivity() {
                     formattedText.append(originalText[i])
                 }
 
-                // Actualizar el campo de texto con el formato correcto
                 binding.addCardUserNumber.setText(formattedText.toString())
                 binding.addCardUserNumber.setSelection(formattedText.length)
 
-                // Volver a agregar el listener
                 binding.addCardUserNumber.addTextChangedListener(this)
             }
 
@@ -62,7 +57,6 @@ class AddCardActivity : AppCompatActivity() {
             val userName = binding.addCardUserName.text.toString()
             val userSurname = binding.addCardUserSurname.text.toString()
             val userCardNumber = binding.addCardUserNumber.text.toString().replace(" ", "")
-            // Determinar el tipo de tarjeta
             val cardType = when {
                 userCardNumber.startsWith("3") -> "AMEX"
                 userCardNumber.startsWith("4") -> "VISA"
@@ -70,30 +64,25 @@ class AddCardActivity : AppCompatActivity() {
                 else -> "Unknown"
             }
 
-            // Verificar que todos los campos estén completos y que el ID del usuario sea válido
-            if (userName.isNotEmpty() && userSurname.isNotEmpty() && userCardNumber.isNotEmpty()) {
-                // Agregar la tarjeta a la base de datos
+            if (userName.isNotEmpty() && userSurname.isNotEmpty() && userCardNumber.isNotEmpty() && userId != -1) {
                 dataBaseHelper.addCard(userId, userName, userSurname, userCardNumber, cardType)
 
-                // Crear un objeto UserInfo con el ID del usuario
                 val userInfo = UserInfo(
                     id = userId,
-                    user = "", // Puede estar vacío ya que estamos en AddCardActivity
-                    password = "", // También vacío
+                    user = "",
+                    password = "",
                     name = userName,
                     surname = userSurname,
                     cardNumber = userCardNumber,
                     cardType = cardType
                 )
 
-                // Crear un Intent de resultado con el objeto UserInfo
                 val resultIntent = Intent().apply {
                     putExtra("userInfo", userInfo)
                 }
                 setResult(Activity.RESULT_OK, resultIntent)
-                finish() // Cerrar esta actividad y volver a HomeActivity
+                finish()
             } else {
-                // Mostrar un mensaje si los campos no están completos o el ID no es válido
                 Toast.makeText(this, "Debe completar todos los campos y seleccionar un usuario válido", Toast.LENGTH_SHORT).show()
             }
         }
