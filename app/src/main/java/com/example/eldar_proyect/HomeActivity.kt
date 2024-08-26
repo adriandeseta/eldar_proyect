@@ -1,6 +1,6 @@
 package com.example.eldar_proyect
 
-import CardsAdapter
+import EncryptionHelper
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eldar_proyect.data.DataBaseHelper
 import com.example.eldar_proyect.databinding.ActivityHomeBinding
 import com.example.eldar_proyect.dto.UserInfo
+import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,6 +21,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var dataBaseHelper: DataBaseHelper
     private val cardList = mutableListOf<UserInfo>()
     private val ADD_CARD_REQUEST_CODE = 1
+    private lateinit var encryptionHelper: EncryptionHelper
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dataBaseHelper = DataBaseHelper(this)
+        encryptionHelper = EncryptionHelper()
 
         val userId = intent.getIntExtra("userId", -1)
 
@@ -54,11 +58,12 @@ class HomeActivity : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             do {
                 val cardNumber = cursor.getString(cursor.getColumnIndex("cardNumber"))
-                val name = cursor.getString(cursor.getColumnIndex("name"))
-                val surname = cursor.getString(cursor.getColumnIndex("surname"))
-                val cardType = cursor.getString(cursor.getColumnIndex("cardType"))
+                val name = cursor.getString(cursor.getColumnIndex("name")).toUpperCase(Locale.ROOT)
+                val surname = cursor.getString(cursor.getColumnIndex("surname")).toUpperCase(Locale.ROOT)
+                val cardType = cursor.getString(cursor.getColumnIndex("cardType")).toUpperCase(Locale.ROOT)
+                val decryptCardNumber = encryptionHelper.decrypt(cardNumber)
 
-                cardList.add(UserInfo(userId, "", "", name, surname, cardNumber, cardType))
+                cardList.add(UserInfo(userId, "", "", name, surname, decryptCardNumber, cardType))
             } while (cursor.moveToNext())
         }
         cursor.close()

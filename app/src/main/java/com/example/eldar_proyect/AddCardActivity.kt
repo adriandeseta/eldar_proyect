@@ -1,5 +1,6 @@
 package com.example.eldar_proyect
 
+import EncryptionHelper
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +17,8 @@ class AddCardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddCardBinding
     private lateinit var dataBaseHelper: DataBaseHelper
+    private lateinit var encryptionHelper: EncryptionHelper
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +28,8 @@ class AddCardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dataBaseHelper = DataBaseHelper(this)
+        encryptionHelper = EncryptionHelper()
+
 
         // Obtener el ID del usuario desde el Intent
         val userId = intent.getIntExtra("userId", -1)
@@ -65,7 +70,9 @@ class AddCardActivity : AppCompatActivity() {
             }
 
             if (userName.isNotEmpty() && userSurname.isNotEmpty() && userCardNumber.isNotEmpty() && userId != -1) {
-                dataBaseHelper.addCard(userId, userName, userSurname, userCardNumber, cardType)
+                val encryptedCardNumber = encryptionHelper.encrypt(userCardNumber)
+
+                dataBaseHelper.addCard(userId, userName, userSurname, encryptedCardNumber, cardType)
 
                 val userInfo = UserInfo(
                     id = userId,
